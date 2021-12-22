@@ -3,11 +3,11 @@
     <header class="header">
       <div class="header__title-group">
         <h1 class="header__title">vue-cli</h1>
-        <h2 class="header__subtitle">admin-panel</h2>
+        <h2 class="header__subtitle">Admin-panel</h2>
       </div>
       <div class="filter">
-        <button class="filter__show-button">
-          <span class="material-icons">sort</span>
+        <button class="filter__button filter__button_show">
+          <span class="material-icons filter__sort-icon">sort</span>
           По умолчанию
         </button>
       </div>
@@ -17,6 +17,9 @@
 </template>
 
 <style lang="scss">
+  .wrapper {
+    min-width: 350px;
+  }
   .header {
     width: 100%;
     height: 100px;
@@ -32,21 +35,22 @@
       text-transform: uppercase;
     }
     .header__subtitle {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 400;
     }
   }
   .filter {
-    .filter__show-button {
+    .filter__button {
+      border: none;
+      border-radius: 4px;
+      padding: 12px 15px;
+
+      font-weight: 500;
+    }
+    .filter__button_show {
       display: flex;
       align-items: center;
       grid-gap: 10px;
-
-      border: none;
-      border-radius: 4px;
-      padding: 10px 15px;
-
-      font-weight: 500;
     }
   }
 </style>
