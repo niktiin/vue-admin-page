@@ -17,24 +17,68 @@ class Storage
     public function read($database)
     {
       $handle = file_get_contents("storage/$database.txt");
-      if (!$handle) {
-        $error = array(
-          "code" => 500,
-          "message" => "Internal Server Error"
-        );
-      }
       $data = unserialize($handle);
-      return $error ?  $error : $data;
+      return $handle ? $data : false;
     }
 
 }
 
-
 try {
+  $method = $_SERVER['REQUEST_METHOD'];
+  if ($method != 'GET') throw  new Exception('Bad request', 400); // 400 Bad request
+
+  $uri = explode("/", $_SERVER["PATH_INFO"]);
+  if (count($uri) > 3 || $uri[1] != 'api' || $uri[2] != 'items') throw  new Exception('Forbidden', 403); // 403 Forbidden
+
   $storage = new Storage();
-  $print = $storage->read("item");
+  $data = $storage->read("item");
 
-  print_r($print);
+  if (!$data) throw new Exception('Origin Is Unreachable', 523);
+
+  echo json_encode($data, JSON_UNESCAPED_UNICODE);
 } catch (Exception $e) {
+  $code = $e->getCode();
+  $message = $e->getMessage();
 
+  switch ($code) {
+    case 400:
+      $body = array(
+        "type" => "/errors/bad-request",
+        "title" => $message,
+        "status" => $code,
+        "detail" => "This method is not processed by the server",
+        "instance" => $_SERVER["REQUEST_URI"]
+      );
+      break;
+      case 403:
+        $body = array(
+          "type" => "/errors/no-access",
+          "title" => $message,
+          "status" => $code,
+          "detail" => "there is no access to the file",
+          "instance" => $_SERVER["REQUEST_URI"]
+        );
+        break;
+      case 523:
+        $body = array(
+          "type" => "/errors/database-empty",
+          "title" => $message,
+          "status" => $code,
+          "detail" => "Data could not be found",
+          "instance" => $_SERVER["REQUEST_URI"]
+        );
+        break;
+    default:
+    $body = array(
+      "type" => "/errors/undifined-error",
+      "title" => "Undifined Internal Server Error",
+      "status" => 500,
+      "detail" => "The error cannot be handled by the server",
+      "instance" => $_SERVER["REQUEST_URI"]
+    );
+      break;
+  }
+  
+
+  echo json_encode($body);
 };
