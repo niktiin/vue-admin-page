@@ -26,20 +26,22 @@ export default {
 
 <style lang="scss">
   .item {
-    max-width: 300px;
+    max-width: 400px;
+    min-width: 260px;
     padding: 15px 15px 30px 15px;
     border-radius: 8px;
 
     display: grid;
     grid-gap: 10px;
-    grid-template-rows: 1.1fr auto auto 1fr auto;
+    grid-template-rows: auto auto auto 1fr auto;
 
     -webkit-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.1);
     -moz-box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.1);
     box-shadow: 4px 4px 30px 0px rgba(34, 60, 80, 0.1);
   }
   .item__image {
-    margin-top: 10%;
+    margin-top: 20%;
+    margin-bottom: 20%;
   }
   .item__price-group {
     display: grid;
@@ -52,7 +54,7 @@ export default {
   }
   .item__price-group-element {
     padding: 2px 0;
-    font-size: 16px;
+    font-size: 18px;
   }
   .item__discount {
     background: #F73D33;
@@ -67,7 +69,7 @@ export default {
   .item__title {
     color: #2F4CDB;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 18px;
   }
   .item__desc {
     text-align: justify;
