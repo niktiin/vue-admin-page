@@ -14,6 +14,9 @@ export default {
   components: {
     item
   },
+  mounted () {
+    this.$store.dispatch('requestAPIGetItem')
+  },
   data: function () {
     return {
       itemsTest: ['', '', '', '', '']
