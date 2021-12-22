@@ -24,6 +24,16 @@ class Storage
 }
 
 try {
+  $code = 200;
+  $message = "ok";
+
+  header("Access-Control-Allow-Origin: *");
+  header( `HTTP/1.1 $code $message`); 
+  header("Content-Type: application/json; charset=UTF-8");
+  header("Cache-Control: no-store, no-cache, must-revalidate");
+  header("Pragma: no-cache");
+  http_response_code($code);
+
   $method = $_SERVER['REQUEST_METHOD'];
   if ($method != 'GET') throw  new Exception('Bad request', 400); // 400 Bad request
 
